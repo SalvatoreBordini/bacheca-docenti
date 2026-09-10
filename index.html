@@ -5,146 +5,336 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bacheca Digitale Scolastica</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-        
-        /* Header */
-        header { background: linear-gradient(135deg, #1e3a8a, #1d4ed8); padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #3b82f6; }
-        .school-title { font-size: 2rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        .live-clock { font-size: 2.2rem; font-weight: 700; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 8px; }
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0284c7;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --accent: #e11d48;
+        }
 
-        /* Main Layout */
-        .main-container { display: flex; flex: 1; overflow: hidden; padding: 20px; gap: 20px; }
-        
-        /* Left Column: Schedule */
-        .schedule-section { flex: 1.2; background: #1e293b; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; border: 1px solid #334155; }
-        .section-title { font-size: 1.5rem; color: #3b82f6; margin-bottom: 15px; border-bottom: 2px solid #334155; padding-bottom: 10px; display: flex; justify-content: space-between; }
-        .schedule-grid { width: 100%; border-collapse: collapse; text-align: left; font-size: 1.2rem; }
-        .schedule-grid th, .schedule-grid td { padding: 14px; border-bottom: 1px solid #334155; }
-        .schedule-grid th { background-color: #0f172a; color: #94a3b8; }
-        .variation { color: #f43f5e; font-weight: bold; background: rgba(244,63,94,0.1); padding: 2px 6px; border-radius: 4px; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        /* Right Column: Notices */
-        .notices-section { flex: 0.8; background: #1e293b; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; border: 1px solid #334155; }
-        .notice-card { background: #0f172a; border-left: 5px solid #eab308; padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; animation: fadeIn 0.5s ease-in-out; }
-        .notice-card h3 { color: #eab308; margin-bottom: 5px; font-size: 1.3rem; }
-        .notice-card p { color: #cbd5e1; font-size: 1.1rem; }
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-        /* Bottom Ticker */
-        .ticker-wrap { background: #eab308; color: #0f172a; padding: 10px 0; overflow: hidden; font-weight: bold; font-size: 1.3rem; }
-        .ticker { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 25s linear infinite; }
-        
+        /* HEADER ISTITUZIONALE */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--secondary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .scuola-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container img {
+            height: 70px;
+            width: auto;
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+        }
+
+        .contatti-scuola h1 {
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contatti-grid {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .contatto-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .datetime-container {
+            text-align: right;
+        }
+
+        #ora {
+            font-size: 2.8rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        #data {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+            text-transform: capitalize;
+        }
+
+        /* MAIN CONTENT LAYOUT */
+        .main-container {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+            height: calc(100vh - 150px);
+        }
+
+        /* SEZIONE SINISTRA: AVVISI */
+        .sezione-avvisi {
+            flex: 1.3;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* SEZIONE DESTRA: ORARIO */
+        .sezione-orario {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-live {
+            background: var(--accent);
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* CONTENUTI DINAMICI */
+        .slider-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .avviso-card {
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 8px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 6px solid var(--secondary);
+        }
+
+        .avviso-card.active {
+            display: flex;
+        }
+
+        .avviso-titolo {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .avviso-testo {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        /* TABELLA ORARIO */
+        .orario-tabella {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .orario-tabella th {
+            background: var(--primary);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .orario-tabella td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .orario-tabella tr:nth-child(even) {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .variazione {
+            background: rgba(225, 29, 72, 0.2);
+            color: #fca5a5;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* TICKER SCORREVOLE IN BASSO */
+        .ticker-bar {
+            background: #000;
+            color: #fff;
+            padding: 12px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            border-top: 2px solid #334155;
+        }
+
+        .ticker-titolo {
+            background: var(--accent);
+            padding: 12px 20px;
+            position: absolute;
+            z-index: 2;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .ticker-testo {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 25s linear infinite;
+            font-size: 1.2rem;
+        }
+
         @keyframes ticker {
             0% { transform: translate3d(0, 0, 0); }
             100% { transform: translate3d(-100%, 0, 0); }
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+    <!-- SBARRA SUPERIORE -->
     <header>
-        <div class="school-title">🏫 ISTITUTO SUPERIORE GENERATO</div>
-        <div class="live-clock" id="clock">00:00:00</div>
+        <div class="scuola-info">
+            <div class="logo-container">
+                <!-- Sostituisci questo URL con il logo ufficiale della scuola -->
+                <img src="https://unsplash.com" alt="Logo Scuola">
+            </div>
+            <div class="contatti-scuola">
+                <h1 id="nome-scuola">Istituto d'Istruzione Superiore "G. Marconi"</h1>
+                <div class="contatti-grid">
+                    <span class="contatto-item">📍 Via Roma 15, Milano</span>
+                    <span class="contatto-item">✉️ info@marconimi.edu.it</span>
+                    <span class="contatto-item">📞 02 1234567</span>
+                </div>
+            </div>
+        </div>
+        <div class="datetime-container">
+            <div id="ora">00:00:00</div>
+            <div id="data">Caricamento data...</div>
+        </div>
     </header>
 
+    <!-- CONTAINER CENTRALE -->
     <div class="main-container">
-        <!-- Orario del Giorno -->
-        <div class="schedule-section">
-            <div class="section-title">
-                <span>📅 Orario e Variazioni del Giorno</span>
-                <span style="font-size: 1rem; color: #94a3b8;" id="current-date">--/--/----</span>
+        <!-- AVVISI CIRCOLARI -->
+        <div class="sezione-avvisi">
+            <h2>📢 Circolari e Avvisi in Evidenza</h2>
+            <div class="slider-container" id="avvisi-container">
+                <div class="avviso-card active">
+                    <h3 class="avviso-titolo">Caricamento avvisi...</h3>
+                    <p class="avviso-testo">Il sistema sta leggendo i dati aggiornati.</p>
+                </div>
             </div>
-            <table class="schedule-grid">
-                <thead>
-                    <tr>
-                        <th>Classe</th>
-                        <th>Ora</th>
-                        <th>Materia / Aula</th>
-                        <th>Note / Sostituzioni</th>
-                    </tr>
-                </thead>
-                <tbody id="schedule-tbody">
-                    <!-- Caricato dinamicamente via JS -->
-                </tbody>
-            </table>
         </div>
 
-        <!-- Avvisi in Evidenza -->
-        <div class="notices-section">
-            <div class="section-title">📢 Avvisi Importanti</div>
-            <div id="notices-container">
-                <!-- Caricato dinamicamente via JS -->
+        <!-- ORARIO E VARIAZIONI -->
+        <div class="sezione-orario">
+            <h2>📅 Variazioni Orario del Giorno <span class="badge-live">OGGI</span></h2>
+            <div style="overflow-y: auto; flex: 1;">
+                <table class="orario-tabella">
+                    <thead>
+                        <tr>
+                            <th>Classe</th>
+                            <th>Ora</th>
+                            <th>Materia / Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orario-corpo">
+                        <tr>
+                            <td colspan="3" style="text-align:center;">Caricamento variazioni orario...</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <!-- Ticker Scorrevole Inferiore -->
-    <div class="ticker-wrap">
-        <div class="ticker" id="ticker-content">
-            Caricamento eventi in corso... • Benvenuti a scuola! • Controllare sempre le variazioni d'orario.
-        </div>
+    <!-- SBARRA SCORREVOLE IN BASSO -->
+    <div class="ticker-bar">
+        <span class="ticker-titolo">Ultim'ora</span>
+        <div class="ticker-testo" id="ticker-container">Caricamento notizie flash...</div>
     </div>
 
     <script>
-        // Orologio in tempo reale
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('it-IT');
-            document.getElementById('current-date').innerText = now.toLocaleDateString('it-IT', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+        // Orologio e data in tempo reale
+        function aggiornaOrologio() {
+            const oraElemento = document.getElementById('ora');
+            const dataElemento = document.getElementById('data');
+            const adesso = new Date();
 
-        // Caricamento Dati dai file JSON locali (gestiti su GitHub)
-        async function loadBachecaData() {
+            oraElemento.textContent = adesso.toLocaleTimeString('it-IT');
+            
+            const opzioniData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dataElemento.textContent = adesso.toLocaleDateString('it-IT', opzioniData);
+        }
+        setInterval(aggiornaOrologio, 1000);
+        aggiornaOrologio();
+
+        // Caricamento dati dagli archivi JSON esterni
+        async function caricaDatiBacheca() {
             try {
-                // Carica Orario
-                const resOrario = await fetch('orario.json');
-                const orari = await resOrario.json();
-                const tbody = document.getElementById('schedule-tbody');
-                tbody.innerHTML = '';
-                orari.forEach(r => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><strong>${r.classe}</strong></td>
-                        <td>${r.ora}° ora</td>
-                        <td>${r.materia}</td>
-                        <td><span class="${r.variazione ? 'variation' : ''}">${r.note}</span></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-
-                // Carica Avvisi
+                // 1. Leggi il file degli avvisi
                 const resAvvisi = await fetch('avvisi.json');
-                const avvisi = await resAvvisi.json();
-                const noticesContainer = document.getElementById('notices-container');
-                noticesContainer.innerHTML = '';
-                let tickerText = "";
+                const datiAvvisi = await resAvvisi.json();
                 
-                avvisi.forEach(a => {
-                    // Popola carte avvisi
-                    const card = document.createElement('div');
-                    card.className = 'notice-card';
-                    card.innerHTML = `<h3>${a.titolo}</h3><p>${a.testo}</p>`;
-                    noticesContainer.appendChild(card);
-                    
-                    // Popola ticker string
-                    tickerText += ` 🔥 ${a.titolo}: ${a.testo} ••• `;
-                });
+                const containerAvvisi = document.getElementById('avvisi-container');
+                containerAvvisi.innerHTML = '';
                 
-                if(tickerText) {
-                    document.getElementById('ticker-content').innerText = tickerText;
-                }
-
-            } catch (error) {
-                console.error("Errore nel caricamento dei dati della bacheca:", error);
-            }
-        }
-
-        // Ricarica i dati automaticamente ogni 5 minuti senza riavviare la pagina
-        loadBachecaData();
-        setInterval(loadBachecaData, 300000);
-    </script>
-</body>
-</html>
+                datiAvvisi.avvisi_principali.forEach((avviso, indice) => {
